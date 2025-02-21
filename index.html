@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Borealis Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="simulation-panel">
+            <div class="simulation-content">
+                <div id="intro-sim" class="sim-page active">
+                    <img src="assets/photo.jpg" alt="Aurora Borealis" class="intro-image">
+                </div>
+                <div id="sun-sim" class="sim-page">
+                    <div class="wind-speed-indicator">
+                        Solar Wind: <span id="windSpeedValue">400</span> km/s
+                    </div>
+                    <div class="simulation-area">
+                        <canvas id="particleCanvas"></canvas>
+                        <div class="sun">
+                            <div class="sun-core"></div>
+                            <div class="sun-atmosphere"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="magnetic-sim" class="sim-page">
+                    <div class="wind-speed-indicator">
+                        Solar Wind: <span id="magneticWindSpeedValue">400</span> km/s
+                    </div>
+                    <div class="simulation-area">
+                        <canvas id="magneticParticleCanvas"></canvas>
+                        <div class="sun">
+                            <div class="sun-core"></div>
+                            <div class="sun-atmosphere"></div>
+                        </div>
+                        <div class="earth">
+                            <div class="earth-core"></div>
+                            <div class="earth-atmosphere"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="particles-sim" class="sim-page">
+                    <div class="atmosphere-layers">
+                        <canvas id="atmosphereCanvas"></canvas>
+                        <div class="altitude-marker" style="bottom: 60%;">150 km</div>
+                        <div class="altitude-marker" style="bottom: 30%;">60 km</div>
+                        <div class="clouds"></div>
+                        <div class="ground"></div>
+                    </div>
+                </div>
+                <div id="together-sim" class="sim-page">
+                    <div class="wind-speed-indicator">
+                        Solar Wind: <span id="combinedWindSpeedValue">400</span> km/s
+                    </div>
+                    <div class="simulation-area">
+                        <canvas id="combinedParticleCanvas"></canvas>
+                        <div class="sun">
+                            <div class="sun-core"></div>
+                            <div class="sun-atmosphere"></div>
+                        </div>
+                        <div class="earth">
+                            <div class="earth-core"></div>
+                            <div class="earth-atmosphere"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tutorial-panel">
+            <div class="tutorial-content">
+                <nav class="page-nav">
+                    <button class="nav-btn active" data-page="intro">Intro</button>
+                    <button class="nav-btn" data-page="sun">The Sun</button>
+                    <button class="nav-btn" data-page="magnetic">Magnetic Field</button>
+                    <button class="nav-btn" data-page="particles">Particles & Color</button>
+                    <button class="nav-btn" data-page="together">All Together</button>
+                </nav>
+
+                <div id="intro" class="tutorial-page active">
+                    <h1>The Northern Lights</h1>
+                    <p>Welcome to the Aurora Borealis Explorer! Here you'll learn about one of nature's most spectacular light shows.</p>
+                    <p>The northern lights, or aurora borealis, are a fascinating phenomenon that occurs when particles from the Sun interact with Earth's atmosphere.</p>
+                    <p>Click through the sections to learn about each part of this amazing process!</p>
+                </div>
+
+                <div id="sun" class="tutorial-page">
+                    <h1>The Sun's Role</h1>
+                    <p>The Sun constantly emits a stream of charged particles called the solar wind. These particles, mainly electrons and protons, travel through space at speeds of 300-800 kilometers per second!</p>
+                    <p>Sometimes, the Sun releases huge bursts of energy called solar flares and coronal mass ejections (CMEs). These events send massive amounts of particles toward Earth, intensifying aurora displays.</p>
+                    <p>The stronger the solar activity, the more spectacular the northern lights can be!</p>
+                    
+                    <div class="controls">
+                        <h2>Controls</h2>
+                        <div class="control-group">
+                            <label for="windStrength">Solar Wind Strength:</label>
+                            <input type="range" id="windStrength" min="300" max="800" value="400" class="slider">
+                        </div>
+                        <div class="control-group">
+                            <button id="solarFlareBtn" class="action-btn">Trigger Solar Flare</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="magnetic" class="tutorial-page">
+                    <h1>Earth's Magnetic Field</h1>
+                    <p>Earth's magnetic field acts like a giant shield, protecting us from the solar wind. This field is generated by the movement of molten iron in Earth's core.</p>
+                    <p>The magnetic field is shaped like a donut, with field lines emerging from the South Pole and entering at the North Pole. Near the poles, these field lines are nearly vertical, creating a "funnel" effect.</p>
+                    <p>This is why auroras are typically visible near Earth's magnetic poles - the particles are guided there by the magnetic field lines!</p>
+                    
+                    <div class="controls">
+                        <h2>Controls</h2>
+                        <div class="control-group">
+                            <label for="magneticWindStrength">Solar Wind Strength:</label>
+                            <input type="range" id="magneticWindStrength" min="300" max="800" value="400" class="slider">
+                        </div>
+                        <div class="control-group">
+                            <button id="magneticSolarFlareBtn" class="action-btn">Trigger Solar Flare</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="particles" class="tutorial-page">
+                    <h1>Particles & Colors</h1>
+                    <p>When solar particles reach Earth's atmosphere, they collide with gas molecules, causing them to become excited and release light.</p>
+                    <p>Different gases create different colors:</p>
+                    <ul>
+                        <li>Green: Oxygen at 60-150 km altitude (most common)</li>
+                        <li>Red: Oxygen at higher altitudes (150-300 km)</li>
+                        <li>Purple/Blue: Nitrogen</li>
+                        <li>Pink: A mix of nitrogen and oxygen</li>
+                    </ul>
+
+                    <div class="controls">
+                        <h2>Controls</h2>
+                        <div class="control-group">
+                            <label>
+                                <input type="checkbox" id="oxygenToggle" checked>
+                                Oxygen
+                            </label>
+                        </div>
+                        <div class="control-group">
+                            <label>
+                                <input type="checkbox" id="nitrogenToggle" checked>
+                                Nitrogen
+                            </label>
+                        </div>
+                        <div class="control-group">
+                            <label for="elevationControl">Elevation: <span id="elevationValue">100</span> km</label>
+                            <input type="range" id="elevationControl" min="50" max="300" value="100" class="slider">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="together" class="tutorial-page">
+                    <h1>Putting It All Together</h1>
+                    <p>Now we can see how it all works together:</p>
+                    <ol>
+                        <li>The Sun releases charged particles</li>
+                        <li>These particles travel to Earth via solar wind</li>
+                        <li>Earth's magnetic field guides them toward the poles</li>
+                        <li>The particles collide with atmospheric gases</li>
+                        <li>The excited gases release colorful light - the aurora!</li>
+                    </ol>
+                    
+                    <div class="controls">
+                        <h2>Controls</h2>
+                        <div class="control-group">
+                            <label for="combinedWindStrength">Solar Wind Strength:</label>
+                            <input type="range" id="combinedWindStrength" min="300" max="800" value="400" class="slider">
+                        </div>
+                        <div class="control-group">
+                            <button id="combinedSolarFlareBtn" class="action-btn">Trigger Solar Flare</button>
+                        </div>
+                        <div class="control-group">
+                            <label>
+                                <input type="checkbox" id="combinedOxygenToggle" checked>
+                                Oxygen
+                            </label>
+                        </div>
+                        <div class="control-group">
+                            <label>
+                                <input type="checkbox" id="combinedNitrogenToggle" checked>
+                                Nitrogen
+                            </label>
+                        </div>
+                        <div class="control-group">
+                            <label for="combinedElevationControl">Elevation: <span id="combinedElevationValue">100</span> km</label>
+                            <input type="range" id="combinedElevationControl" min="50" max="300" value="100" class="slider">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
